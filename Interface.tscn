@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://dbka6iy841ku"]
+[gd_scene load_steps=2 format=3 uid="uid://dbka6iy841ku"]
+
+[ext_resource type="Script" path="res://Interface.gd" id="1_bx74f"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -7,23 +9,47 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bx74f")
+
+[node name="Menu" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+offset_left = 0.203857
+offset_right = 1167.2
+offset_bottom = 648.0
+
+[node name="PopupMenu" type="VBoxContainer" parent="Menu"]
+layout_mode = 2
+
+[node name="Quit" type="Button" parent="Menu/PopupMenu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Close" type="Button" parent="Menu/PopupMenu"]
+layout_mode = 2
+text = "Close"
 
 [node name="ControlPanel" type="BoxContainer" parent="."]
-layout_mode = 0
-offset_left = 640.0
-offset_top = 609.0
-offset_right = 1150.0
-offset_bottom = 646.0
+layout_mode = 2
+offset_left = 929.0
+offset_top = 613.0
+offset_right = 1151.0
+offset_bottom = 644.0
+scale = Vector2(0.987031, 1)
 alignment = 2
 
 [node name="Inventory" type="Button" parent="ControlPanel"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Inventory"
 
 [node name="SkillTree" type="Button" parent="ControlPanel"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Skill Tree"
 
-[node name="Menu" type="Button" parent="ControlPanel"]
+[node name="MenuButton" type="Button" parent="ControlPanel"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Menu"
