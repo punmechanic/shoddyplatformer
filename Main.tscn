@@ -2,12 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://dbka6iy841ku" path="res://Interface.tscn" id="1_ml5lu"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Root" type="Node2D"]
 
 [node name="Interface" parent="." instance=ExtResource("1_ml5lu")]
 
 [node name="GossipPrompt" parent="Interface" index="2"]
 visible = false
+
+[node name="Player" type="Node2D" parent="."]
 
 [editable path="Interface"]
 [editable path="Interface/GossipPrompt"]
