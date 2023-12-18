@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnxbtj0vsr8aw"]
+
+[ext_resource type="SpriteFrames" uid="uid://sx70kiapr4to" path="res://player/green_player.tres" id="1_sxvrh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpfys"]
+size = Vector2(20, 23)
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_sxvrh")
+animation = &"walk"
+frame_progress = 0.315103
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_vpfys")
+disabled = true
