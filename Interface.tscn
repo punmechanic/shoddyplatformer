@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbka6iy841ku"]
+[gd_scene load_steps=4 format=3 uid="uid://dbka6iy841ku"]
 
 [ext_resource type="Script" path="res://Interface.gd" id="1_bx74f"]
 [ext_resource type="Theme" uid="uid://cv84v08whnarm" path="res://ui/theme.tres" id="2_e0c14"]
+[ext_resource type="PackedScene" uid="uid://5ovkvpx7tdem" path="res://ui/controls/gossip_prompt.tscn" id="3_yynlk"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -45,7 +46,6 @@ alignment = 2
 [node name="Inventory" type="Button" parent="ControlPanel"]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("2_e0c14")
 text = "Inventory"
 
 [node name="SkillTree" type="Button" parent="ControlPanel"]
@@ -57,3 +57,11 @@ text = "Skill Tree"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Menu"
+
+[node name="GossipPrompt" parent="." instance=ExtResource("3_yynlk")]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 486.0
+offset_right = 824.0
+offset_bottom = 644.0
+text = "Hello, world!"
