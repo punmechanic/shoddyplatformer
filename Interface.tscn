@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbka6iy841ku"]
+[gd_scene load_steps=3 format=3 uid="uid://dbka6iy841ku"]
 
 [ext_resource type="Script" path="res://Interface.gd" id="1_bx74f"]
+[ext_resource type="Theme" uid="uid://cv84v08whnarm" path="res://assets/ui/theme.tres" id="2_e0c14"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_e0c14")
 script = ExtResource("1_bx74f")
 
 [node name="Menu" type="CenterContainer" parent="."]
@@ -33,9 +35,9 @@ text = "Close"
 
 [node name="ControlPanel" type="BoxContainer" parent="."]
 layout_mode = 2
-offset_left = 929.0
-offset_top = 613.0
-offset_right = 1151.0
+offset_left = 836.0
+offset_top = 581.0
+offset_right = 1154.0
 offset_bottom = 644.0
 scale = Vector2(0.987031, 1)
 alignment = 2
@@ -43,6 +45,7 @@ alignment = 2
 [node name="Inventory" type="Button" parent="ControlPanel"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("2_e0c14")
 text = "Inventory"
 
 [node name="SkillTree" type="Button" parent="ControlPanel"]
