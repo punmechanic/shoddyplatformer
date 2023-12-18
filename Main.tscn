@@ -5,3 +5,9 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Interface" parent="." instance=ExtResource("1_ml5lu")]
+
+[node name="GossipPrompt" parent="Interface" index="2"]
+visible = false
+
+[editable path="Interface"]
+[editable path="Interface/GossipPrompt"]
