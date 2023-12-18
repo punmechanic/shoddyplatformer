@@ -1,20 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://5ovkvpx7tdem"]
-
-[sub_resource type="GDScript" id="GDScript_ehuak"]
-resource_name = "gossip_prompt.gd"
-script/source = "extends Panel
-
-### The text to be displayed in the prompt.
-@export var text: String = \"\"
-
-func _ready():
-	%RichTextLabel.text = text
-"
+[gd_scene format=3 uid="uid://5ovkvpx7tdem"]
 
 [node name="GossipPrompt" type="Panel"]
 offset_right = 816.0
 offset_bottom = 158.0
-script = SubResource("GDScript_ehuak")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
@@ -30,4 +18,4 @@ offset_right = 395.0
 offset_bottom = 63.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet mattis vulputate enim nulla aliquet porttitor lacus luctus. Amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Consectetur a erat nam at lectus urna. Semper eget duis at tellus at urna condimentum mattis pellentesque. Dictumst vestibulum rhoncus est pellentesque elit. Nec dui nunc mattis enim. Purus faucibus ornare suspendisse sed nisi lacus sed viverra tellus. Nulla facilisi cras fermentum odio eu feugiat pretium nibh ipsum. Eu feugiat pretium nibh ipsum consequat nisl. Fermentum leo vel orci porta non pulvinar neque. Varius vel pharetra vel turpis nunc eget lorem dolor. Nunc non blandit massa enim nec. Tortor at auctor urna nunc id cursus metus. Vitae tempus quam pellentesque nec nam aliquam. Ut sem viverra aliquet eget sit amet tellus cras."
+text = "This is some dummy text. It can be edited after being instantiated by setting GossipPrompt to have editable children. You should do this, because it enables the prompt to display actual game text in the editor."
