@@ -47,3 +47,6 @@ func _physics_process(delta: float):
 ### Kills the player, playing the death animation and emitting a death event.
 func kill():
 	died.emit()
+
+func play_idle_animation():
+	$Sprite.play("idle")
