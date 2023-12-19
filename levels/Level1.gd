@@ -6,5 +6,5 @@ func _on_death_zone_body_entered(body: Node2D):
 	if body is Player:
 		body.kill()
 
-func spawn_player(player: CharacterBody2D):
+func spawn_player(player: Player) -> void:
 	$SpawnPoint.spawn_player(player)
