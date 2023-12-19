@@ -1,8 +1,9 @@
-extends CharacterBody2D
-
+class_name Player extends CharacterBody2D
 
 @export var speed = 300.0
 @export var jump_velocity = -400.0
+
+signal died
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -42,3 +43,7 @@ func _physics_process(delta: float):
 		$Sprite.flip_h = direction > 0
 		# Player is moving
 		$Sprite.play("walk")
+
+### Kills the player, playing the death animation and emitting a death event.
+func kill():
+	died.emit()

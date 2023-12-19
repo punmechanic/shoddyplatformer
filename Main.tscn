@@ -5,8 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://bnxbtj0vsr8aw" path="res://player/Player.tscn" id="3_2mod8"]
 [ext_resource type="PackedScene" uid="uid://6l1ltbpofelu" path="res://levels/Level1.tscn" id="3_6cox8"]
 
-[node name="Root" type="Node2D"]
+[node name="Root" type="Node2D" node_paths=PackedStringArray("initial_level")]
 script = ExtResource("1_h4cmw")
+initial_level = NodePath("Level1")
 
 [node name="Player" parent="." instance=ExtResource("3_2mod8")]
 collision_layer = 3
@@ -21,6 +22,8 @@ visible = false
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 0.5
+
+[connection signal="died" from="Player" to="." method="_on_player_died"]
 
 [editable path="UserInterface"]
 [editable path="UserInterface/GossipPrompt"]
