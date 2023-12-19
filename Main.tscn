@@ -1,10 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://cv5hjkqlhn7o3"]
+[gd_scene load_steps=6 format=3 uid="uid://cv5hjkqlhn7o3"]
 
+[ext_resource type="Script" path="res://Main.gd" id="1_cqn8l"]
 [ext_resource type="PackedScene" uid="uid://dbka6iy841ku" path="res://Interface.tscn" id="1_ml5lu"]
 [ext_resource type="TileSet" uid="uid://sos6na5n38sx" path="res://sprites/terrain.tres" id="2_lh6x7"]
 [ext_resource type="PackedScene" uid="uid://bnxbtj0vsr8aw" path="res://player/Player.tscn" id="3_2mod8"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_or1sy"]
+size = Vector2(1212, 97)
+
 [node name="Root" type="Node2D"]
+script = ExtResource("1_cqn8l")
+
+[node name="DeathZone" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+position = Vector2(588, 668.5)
+shape = SubResource("RectangleShape2D_or1sy")
+metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -15,7 +29,6 @@ anchor_mode = 0
 visible = false
 
 [node name="Level1" type="TileMap" parent="."]
-position = Vector2(0, -1)
 tile_set = ExtResource("2_lh6x7")
 format = 2
 layer_0/name = "floor"
@@ -25,7 +38,10 @@ layer_1/tile_data = PackedInt32Array(2686992, 196609, 6, 2621456, 196609, 6, 255
 
 [node name="Player" parent="." instance=ExtResource("3_2mod8")]
 position = Vector2(55, 72)
+collision_layer = 3
 floor_stop_on_slope = false
+
+[connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]
 
 [editable path="Interface"]
 [editable path="Interface/GossipPrompt"]

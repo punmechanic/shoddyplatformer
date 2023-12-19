@@ -26,3 +26,5 @@ project/assembly_name="UntitledProject1"
 [layer_names]
 
 2d_physics/layer_1="floors"
+2d_physics/layer_2="player"
+2d_physics/layer_3="control_objects"
