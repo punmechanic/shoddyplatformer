@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmk3wskr7sjvl"]
+
+[ext_resource type="Texture2D" uid="uid://c8xhlampf1rsx" path="res://sprites/tilemap.png" id="1_63p5u"]
+
+[sub_resource type="GDScript" id="GDScript_uxhey"]
+script/source = "extends Area2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ku1q"]
+atlas = ExtResource("1_63p5u")
+region = Rect2(133, 95, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xptbn"]
+atlas = ExtResource("1_63p5u")
+region = Rect2(152, 95, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1s021"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ku1q")
+}],
+"loop": true,
+"name": &"depressed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xptbn")
+}],
+"loop": true,
+"name": &"neutral",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_60lum"]
+size = Vector2(20, 15)
+
+[node name="PressureButton" type="Node2D"]
+
+[node name="PhysicsBody" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+script = SubResource("GDScript_uxhey")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PhysicsBody"]
+sprite_frames = SubResource("SpriteFrames_1s021")
+animation = &"neutral"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsBody"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_60lum")

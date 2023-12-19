@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://6l1ltbpofelu"]
+[gd_scene load_steps=6 format=3 uid="uid://6l1ltbpofelu"]
 
 [ext_resource type="TileSet" uid="uid://sos6na5n38sx" path="res://sprites/terrain.tres" id="1_5iamt"]
 [ext_resource type="Script" path="res://levels/Level1.gd" id="2_1gil1"]
+[ext_resource type="PackedScene" uid="uid://cmk3wskr7sjvl" path="res://objects/PressureButton.tscn" id="3_blxsu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_or1sy"]
 size = Vector2(1212, 97)
@@ -39,5 +40,8 @@ metadata/_edit_lock_ = true
 [node name="SpawnPoint" type="Node2D" parent="."]
 position = Vector2(8, 522)
 script = SubResource("GDScript_2gn2n")
+
+[node name="PressureButton" parent="." instance=ExtResource("3_blxsu")]
+position = Vector2(64, 536)
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]
