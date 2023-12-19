@@ -65,7 +65,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy3nu"]
-size = Vector2(14, 17)
+size = Vector2(14, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wkrdk"]
 size = Vector2(20, 10)
@@ -85,7 +85,7 @@ editor_description = "This shape slightly narrower than BodyCollisionShape and i
 Without this, the player might clip the button with their little toe and it looks like a press, which looks strange.
 
 It's also a little taller than the sprite, so it looks like the player stomps on the button before it disappears before their feet."
-position = Vector2(0, 0.5)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_fy3nu")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
