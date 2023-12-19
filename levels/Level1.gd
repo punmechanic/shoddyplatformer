@@ -1,8 +1,9 @@
 extends Level
 
 func _on_death_zone_body_entered(body: Node2D):
-	# TODO: It would be better to have this collision handled within the player, by creating a collision
-	# shape around the player that specifically only listens to insta-death events on the dead zone collision layer.
+	# TODO: This probably shouldn't be handled in each level, but handling it in the player script is clumsy,
+	# because at present the player script doesn't provide a way of listening to any collision on a particular layer or mask,
+	# since it's a CharacterBody2D.
 	if body is Player:
 		body.kill()
 
