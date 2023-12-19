@@ -11,24 +11,15 @@ func _physics_process(delta: float):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
-
-	var is_jumping: bool = false
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		$Sprite.play("jump")
 		velocity.y = JUMP_VELOCITY
-		is_jumping = true
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction:
 		velocity.x = direction * SPEED
-		# Only change the facing direction if the player actually changed how they are facing.
-		# This prevents the sprite "snapping" back to facing left after the player stops pressing the right direction.
-		$Sprite.flip_h = direction > 0
-		# TODO: Don't play the walking animation when the player is jumping./
-		$Sprite.play("walk")
 	else:
 		# Player is stood still.
 		velocity.x = move_toward(velocity.x, 0, SPEED)
@@ -42,3 +33,12 @@ func _physics_process(delta: float):
 	# any jumps that occurred during this frame.
 	if is_on_floor() and direction == 0:
 		$Sprite.play("idle")
+	elif not is_on_floor():
+		# Player is jumping or falling
+		$Sprite.play("jump")
+	elif direction != 0:
+		# Only change the facing direction if the player actually changed how they are facing.
+		# This prevents the sprite "snapping" back to facing left after the player stops pressing the right direction.
+		$Sprite.flip_h = direction > 0
+		# Player is moving
+		$Sprite.play("walk")
