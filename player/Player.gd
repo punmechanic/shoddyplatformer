@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var SPEED = 300.0
+@export var JUMP_VELOCITY = -400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -22,6 +22,9 @@ func _physics_process(delta: float):
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction:
 		velocity.x = direction * SPEED
+		# Only change the facing direction if the player actually changed how they are facing.
+		# This prevents the sprite "snapping" back to facing left after the player stops pressing the right direction.
+		$Sprite.flip_h = direction > 0
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
