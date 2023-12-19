@@ -2,8 +2,15 @@
 
 [ext_resource type="Texture2D" uid="uid://c8xhlampf1rsx" path="res://sprites/tilemap.png" id="1_63p5u"]
 
-[sub_resource type="GDScript" id="GDScript_uxhey"]
-script/source = "extends Area2D
+[sub_resource type="GDScript" id="GDScript_22baq"]
+resource_name = "PressureButton"
+script/source = "extends Node
+
+## Emitted when the button is depressed.
+signal pressed
+
+## Emitted when the button is released.
+signal released
 
 func _ready():
 	$AnimatedSprite2D.play(\"neutral\")
@@ -11,10 +18,12 @@ func _ready():
 func _on_body_entered(body: Player):
 	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
 	$AnimatedSprite2D.play(\"depressed\")
+	pressed.emit()
 
 func _on_body_exited(body: Player):
 	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
 	$AnimatedSprite2D.play(\"neutral\")
+	released.emit()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ku1q"]
@@ -47,20 +56,18 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_60lum"]
 size = Vector2(20, 15)
 
-[node name="PressureButton" type="Node2D"]
-
-[node name="PhysicsBody" type="Area2D" parent="."]
+[node name="PressureButton" type="Area2D"]
 collision_layer = 4
 collision_mask = 2
-script = SubResource("GDScript_uxhey")
+script = SubResource("GDScript_22baq")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PhysicsBody"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1s021")
 animation = &"neutral"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsBody"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_60lum")
 
-[connection signal="body_entered" from="PhysicsBody" to="PhysicsBody" method="_on_body_entered"]
-[connection signal="body_exited" from="PhysicsBody" to="PhysicsBody" method="_on_body_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
