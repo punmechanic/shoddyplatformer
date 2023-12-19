@@ -10,8 +10,6 @@ script = ExtResource("1_h4cmw")
 initial_level = NodePath("Level1")
 
 [node name="Player" parent="." instance=ExtResource("3_2mod8")]
-collision_layer = 3
-floor_stop_on_slope = false
 
 [node name="UserInterface" parent="." instance=ExtResource("1_ml5lu")]
 
