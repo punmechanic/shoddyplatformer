@@ -22,3 +22,7 @@ window/stretch/scale_mode="integer"
 [dotnet]
 
 project/assembly_name="UntitledProject1"
+
+[layer_names]
+
+2d_physics/layer_1="floors"
