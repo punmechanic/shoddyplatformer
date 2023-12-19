@@ -12,12 +12,18 @@ signal pressed
 ## Emitted when the button is released.
 signal released
 
+## Indicates that the pressure plate is only trigger once the player jumps on it, and can't be triggered by walking past it.
+@export var triggered_only_on_jumps: bool = true
+
 func _ready():
 	$AnimatedSprite2D.play(\"neutral\")
 
 func _on_body_entered(body: Player):
 	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
-	$AnimatedSprite2D.play(\"depressed\")
+	if not triggered_only_on_jumps or (triggered_only_on_jumps and body.velocity.y > 0):
+		# This node has no velocity, so we can just check the players velocity to discern if the player jumped on the button.
+		# If the velocity.y of the player is above 0, then the player either jumped or fell onto the button.
+		$AnimatedSprite2D.play(\"depressed\")
 	pressed.emit()
 
 func _on_body_exited(body: Player):
