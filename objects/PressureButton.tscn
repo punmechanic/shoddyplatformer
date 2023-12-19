@@ -1,10 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmk3wskr7sjvl"]
+[gd_scene load_steps=8 format=3 uid="uid://cmk3wskr7sjvl"]
 
 [ext_resource type="Texture2D" uid="uid://c8xhlampf1rsx" path="res://sprites/tilemap.png" id="1_63p5u"]
 
 [sub_resource type="GDScript" id="GDScript_22baq"]
 resource_name = "PressureButton"
-script/source = "extends Node
+script/source = "## PressureButton is a button that can only be depressed by jumping onto it.
+## It can otherwise be walked through or over, and no collision will take place.
+
+# The PressureButton has an Area2D which is used to detect when a player enters  the general shape of the button. If the player has a positive vertical velocity when entering the button, they must be falling. This causes the ButtonFloor static body to become active on collision layer 1, which causes the button to act like a floor. Once the player moves off the button, the static body becomes inactive again.
+#
+# While the static body is inactive, the player can freely walk through the object.
+
+extends Node
 
 ## Emitted when the button is depressed.
 signal pressed
@@ -12,23 +19,21 @@ signal pressed
 ## Emitted when the button is released.
 signal released
 
-## Indicates that the pressure plate is only trigger once the player jumps on it, and can't be triggered by walking past it.
-@export var triggered_only_on_jumps: bool = true
-
 func _ready():
 	$AnimatedSprite2D.play(\"neutral\")
 
-func _on_body_entered(body: Player):
+func _on_body_entered(body: Node2D):
 	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
-	if not triggered_only_on_jumps or (triggered_only_on_jumps and body.velocity.y > 0):
+	if body.velocity.y > 0:
 		# This node has no velocity, so we can just check the players velocity to discern if the player jumped on the button.
 		# If the velocity.y of the player is above 0, then the player either jumped or fell onto the button.
 		$AnimatedSprite2D.play(\"depressed\")
-	pressed.emit()
+		$Floor/FloorBoundary.set_deferred(\"disabled\", false)
 
-func _on_body_exited(body: Player):
+func _on_body_exited(body: Node2D):
 	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
 	$AnimatedSprite2D.play(\"neutral\")
+	$Floor/FloorBoundary.set_deferred(\"disabled\", true)
 	released.emit()
 "
 
@@ -59,11 +64,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_60lum"]
-size = Vector2(20, 15)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fy3nu"]
+size = Vector2(14, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wkrdk"]
+size = Vector2(20, 10)
 
 [node name="PressureButton" type="Area2D"]
-collision_layer = 4
+collision_layer = 0
 collision_mask = 2
 script = SubResource("GDScript_22baq")
 
@@ -71,9 +79,25 @@ script = SubResource("GDScript_22baq")
 sprite_frames = SubResource("SpriteFrames_1s021")
 animation = &"neutral"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1.5)
-shape = SubResource("RectangleShape2D_60lum")
+[node name="JumpBoundary" type="CollisionShape2D" parent="."]
+editor_description = "This shape slightly narrower than BodyCollisionShape and is used to ensure the player actually jumps directly on the button.
+
+Without this, the player might clip the button with their little toe and it looks like a press, which looks strange.
+
+It's also a little taller than the sprite, so it looks like the player stomps on the button before it disappears before their feet."
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_fy3nu")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 0.5)
+collision_mask = 3
+
+[node name="FloorBoundary" type="CollisionShape2D" parent="Floor"]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_wkrdk")
+disabled = true
+debug_color = Color(0.913725, 0.235294, 0.443137, 0.419608)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
