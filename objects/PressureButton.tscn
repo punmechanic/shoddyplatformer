@@ -5,15 +5,16 @@
 [sub_resource type="GDScript" id="GDScript_uxhey"]
 script/source = "extends Area2D
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$AnimatedSprite2D.play(\"neutral\")
 
+func _on_body_entered(body: Player):
+	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
+	$AnimatedSprite2D.play(\"depressed\")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_body_exited(body: Player):
+	assert(body is Player, \"PressureButton received a hit from a non-Player object. Make sure the Mask is set correctly\")
+	$AnimatedSprite2D.play(\"neutral\")
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ku1q"]
@@ -50,7 +51,7 @@ size = Vector2(20, 15)
 
 [node name="PhysicsBody" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 2
 script = SubResource("GDScript_uxhey")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PhysicsBody"]
@@ -60,3 +61,6 @@ animation = &"neutral"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsBody"]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_60lum")
+
+[connection signal="body_entered" from="PhysicsBody" to="PhysicsBody" method="_on_body_entered"]
+[connection signal="body_exited" from="PhysicsBody" to="PhysicsBody" method="_on_body_exited"]

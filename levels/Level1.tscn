@@ -42,6 +42,7 @@ position = Vector2(8, 522)
 script = SubResource("GDScript_2gn2n")
 
 [node name="PressureButton" parent="." instance=ExtResource("3_blxsu")]
+z_as_relative = false
 position = Vector2(64, 536)
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

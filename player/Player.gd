@@ -26,7 +26,7 @@ func _physics_process(delta: float):
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	move_and_slide()
-	
+
 	# If the player is not jumping AND the player has no direction, the player is stood still and should idle.
 	# We still want the walking animation to play if the player has a direction even if the player can't move.
 	#
