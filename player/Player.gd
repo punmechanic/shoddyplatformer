@@ -32,17 +32,16 @@ func _physics_process(delta: float):
 	#
 	# This is done after move_and_slide() because move_and_slide() will change the state of is_on_floor() to reflect
 	# any jumps that occurred during this frame.
-	if is_on_floor() and direction == 0:
-		$Sprite.play("idle")
-	elif not is_on_floor():
-		# Player is jumping or falling
+	if is_on_floor():
+		if direction != 0:
+			$Sprite.play("walk")
+		else:
+			$Sprite.play("idle")
+	else:
 		$Sprite.play("jump")
-	elif direction != 0:
-		# Only change the facing direction if the player actually changed how they are facing.
-		# This prevents the sprite "snapping" back to facing left after the player stops pressing the right direction.
+	# Change facing direction if the axis indicates that we should (ie its over or under 0).
+	if direction != 0:
 		$Sprite.flip_h = direction > 0
-		# Player is moving
-		$Sprite.play("walk")
 
 ### Kills the player, playing the death animation and emitting a death event.
 func kill():
