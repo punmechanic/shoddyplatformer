@@ -28,6 +28,8 @@ func _physics_process(delta: float):
 		# Player is stood still.
 		velocity.x = move_toward(velocity.x, 0, speed)
 
+	# TODO: This is currently bugged and will only trigger if a player collides with a wall,
+	# instead of if a player moves on the water.
 	if move_and_slide():
 		var collision = get_last_slide_collision()
 		var collider = collision.get_collider()
