@@ -2,6 +2,9 @@ class_name Player extends CharacterBody2D
 
 @export var speed = 300.0
 @export var jump_velocity = -400.0
+## The name of the deep water data layer in a tile map. Touching deep water instantly kills the player.
+## This hack is done because CharacterBody2D doesn't provide a convenient way for identifying a collision with any particular tile, instead we have to iterate through each tile of a tilemap whenever a collision is made.
+@export var deep_water_layer_name = "deep_water"
 
 signal died
 
@@ -25,8 +28,16 @@ func _physics_process(delta: float):
 		# Player is stood still.
 		velocity.x = move_toward(velocity.x, 0, speed)
 
-	move_and_slide()
-
+	if move_and_slide():
+		var collision = get_last_slide_collision()
+		var collider = collision.get_collider()
+		if collider is TileMap:
+			var layer_id = collider.get_layer_for_body_rid(collision.get_collider_rid())
+			var coords = collider.local_to_map(collision.get_position())
+			var tile: TileData = collider.get_cell_tile_data(layer_id, coords)
+			if tile != null && tile.get_custom_data(deep_water_layer_name):
+				self.kill()
+	
 	# If the player is not jumping AND the player has no direction, the player is stood still and should idle.
 	# We still want the walking animation to play if the player has a direction even if the player can't move.
 	#
