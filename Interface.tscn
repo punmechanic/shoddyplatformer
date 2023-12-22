@@ -4,7 +4,9 @@
 [ext_resource type="Theme" uid="uid://cv84v08whnarm" path="res://ui/theme.tres" id="2_e0c14"]
 [ext_resource type="PackedScene" uid="uid://5ovkvpx7tdem" path="res://ui/controls/gossip_prompt.tscn" id="3_yynlk"]
 
-[node name="Control" type="Control"]
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +16,7 @@ grow_vertical = 2
 theme = ExtResource("2_e0c14")
 script = ExtResource("1_bx74f")
 
-[node name="Menu" type="CenterContainer" parent="."]
+[node name="Menu" type="CenterContainer" parent="Control"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -22,19 +24,19 @@ offset_left = 0.203857
 offset_right = 1167.2
 offset_bottom = 648.0
 
-[node name="PopupMenu" type="VBoxContainer" parent="Menu"]
+[node name="PopupMenu" type="VBoxContainer" parent="Control/Menu"]
 layout_mode = 2
 
-[node name="Quit" type="Button" parent="Menu/PopupMenu"]
+[node name="Quit" type="Button" parent="Control/Menu/PopupMenu"]
 layout_mode = 2
 text = "Quit"
 
-[node name="Close" type="Button" parent="Menu/PopupMenu"]
+[node name="Close" type="Button" parent="Control/Menu/PopupMenu"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Close"
 
-[node name="ControlPanel" type="BoxContainer" parent="."]
+[node name="ControlPanel" type="BoxContainer" parent="Control"]
 layout_mode = 2
 offset_left = 836.0
 offset_top = 581.0
@@ -43,22 +45,22 @@ offset_bottom = 644.0
 scale = Vector2(0.987031, 1)
 alignment = 2
 
-[node name="Inventory" type="Button" parent="ControlPanel"]
+[node name="Inventory" type="Button" parent="Control/ControlPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Inventory"
 
-[node name="SkillTree" type="Button" parent="ControlPanel"]
+[node name="SkillTree" type="Button" parent="Control/ControlPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Skill Tree"
 
-[node name="MenuButton" type="Button" parent="ControlPanel"]
+[node name="MenuButton" type="Button" parent="Control/ControlPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Menu"
 
-[node name="GossipPrompt" parent="." instance=ExtResource("3_yynlk")]
+[node name="GossipPrompt" parent="Control" instance=ExtResource("3_yynlk")]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 486.0
@@ -66,7 +68,7 @@ offset_right = 824.0
 offset_bottom = 644.0
 scale = Vector2(1, 1.00748)
 
-[node name="RichTextLabel" parent="GossipPrompt" index="0"]
+[node name="RichTextLabel" parent="Control/GossipPrompt" index="0"]
 text = "Hello, world!"
 
-[editable path="GossipPrompt"]
+[editable path="Control/GossipPrompt"]

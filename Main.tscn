@@ -15,7 +15,7 @@ initial_level = NodePath("Level1")
 
 [node name="UserInterface" parent="." instance=ExtResource("1_ml5lu")]
 
-[node name="GossipPrompt" parent="UserInterface" index="2"]
+[node name="GossipPrompt" parent="UserInterface/Control" index="2"]
 visible = false
 
 [node name="Level1" parent="." instance=ExtResource("3_6cox8")]
@@ -26,4 +26,4 @@ wait_time = 0.5
 [connection signal="died" from="Player" to="." method="_on_player_died"]
 
 [editable path="UserInterface"]
-[editable path="UserInterface/GossipPrompt"]
+[editable path="UserInterface/Control/GossipPrompt"]
