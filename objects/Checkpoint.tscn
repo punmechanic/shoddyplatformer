@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://h61foxxgt5k8"]
+
+[ext_resource type="Script" path="res://objects/Checkpoint.gd" id="1_cls2b"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_hfr33"]
+a = Vector2(0, 1000)
+b = Vector2(0, -1000)
+
+[node name="Checkpoint" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_cls2b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SegmentShape2D_hfr33")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+gizmo_extents = 50.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

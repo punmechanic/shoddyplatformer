@@ -6,8 +6,3 @@ func _on_death_zone_body_entered(body: Node2D):
 	# since it's a CharacterBody2D.
 	if body is Player:
 		body.kill()
-
-func spawn_player(player: Player) -> void:
-	$SpawnPoint.spawn_player(player)
-	set_deferred.bind()
-

@@ -3,14 +3,7 @@
 [ext_resource type="TileSet" uid="uid://sos6na5n38sx" path="res://sprites/terrain.tres" id="1_5iamt"]
 [ext_resource type="Script" path="res://levels/Level1.gd" id="2_1gil1"]
 [ext_resource type="PackedScene" uid="uid://cmk3wskr7sjvl" path="res://objects/PressureButton.tscn" id="3_blxsu"]
-
-[sub_resource type="GDScript" id="GDScript_2gn2n"]
-script/source = "extends Node2D
-
-func spawn_player(player: Player):
-	player.play_idle_animation()
-	player.global_position = self.global_position
-"
+[ext_resource type="PackedScene" uid="uid://h61foxxgt5k8" path="res://objects/Checkpoint.tscn" id="3_fwr7n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_or1sy"]
 size = Vector2(1212, 97)
@@ -18,8 +11,9 @@ size = Vector2(1212, 97)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_46jm2"]
 size = Vector2(1212, 97)
 
-[node name="Level1" type="Node2D"]
+[node name="Level1" type="Node2D" node_paths=PackedStringArray("initial_spawn_point")]
 script = ExtResource("2_1gil1")
+initial_spawn_point = NodePath("Checkpoint1")
 
 [node name="Tiles" type="TileMap" parent="."]
 tile_set = ExtResource("1_5iamt")
@@ -34,13 +28,15 @@ position = Vector2(2, 285)
 anchor_mode = 0
 zoom = Vector2(2, 2)
 
-[node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2(11, 499)
-script = SubResource("GDScript_2gn2n")
-
 [node name="PressureButton" parent="." instance=ExtResource("3_blxsu")]
 z_as_relative = false
 position = Vector2(64, 536)
+
+[node name="Checkpoint1" parent="." instance=ExtResource("3_fwr7n")]
+position = Vector2(14, 545)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("3_fwr7n")]
+position = Vector2(152, 496)
 
 [node name="LevelBoundaries" type="StaticBody2D" parent="."]
 

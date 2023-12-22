@@ -77,7 +77,7 @@ script = SubResource("GDScript_22baq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1s021")
-animation = &"neutral"
+animation = &"depressed"
 
 [node name="JumpBoundary" type="CollisionShape2D" parent="."]
 editor_description = "This shape slightly narrower than BodyCollisionShape and is used to ensure the player actually jumps directly on the button.
