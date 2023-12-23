@@ -11,11 +11,6 @@ initial_level = NodePath("Level1")
 
 [node name="Player" parent="." instance=ExtResource("3_2mod8")]
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(2, 2)
-limit_left = -50
-limit_smoothed = true
-
 [node name="UserInterface" parent="." instance=ExtResource("1_ml5lu")]
 
 [node name="GossipPrompt" parent="UserInterface/Control" index="2"]
