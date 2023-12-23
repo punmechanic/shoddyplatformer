@@ -56,7 +56,10 @@ func _physics_process(delta: float):
 			var coords = collider.local_to_map(collision.get_position())
 			var tile: TileData = collider.get_cell_tile_data(layer_id, coords)
 			if tile != null && tile.get_custom_data(deep_water_layer_name):
-				self.kill()
+				# This triggers MANY times and only takes affect once the player leaves the dead zone.
+				# My guess is that multiple invocations continually reset the timer.
+				# We can solve this by having a dead state, and transitioning the player to that state, and only emitting state change notifications if appropriate.
+				kill()
 	
 	# If the player is not jumping AND the player has no direction, the player is stood still and should idle.
 	# We still want the walking animation to play if the player has a direction even if the player can't move.
@@ -74,8 +77,14 @@ func _physics_process(delta: float):
 	if direction != 0:
 		$Sprite.flip_h = direction > 0
 
+# TODO: Refactor this into a state machine for all possible player states.
+var is_dead: bool = false
+
 ### Kills the player, playing the death animation and emitting a death event.
 func kill():
+	if is_dead:
+		return
+	is_dead = true
 	died.emit()
 
 func play_idle_animation():
