@@ -5,6 +5,34 @@ class_name Player extends CharacterBody2D
 ## The name of the deep water data layer in a tile map. Touching deep water instantly kills the player.
 ## This hack is done because CharacterBody2D doesn't provide a convenient way for identifying a collision with any particular tile, instead we have to iterate through each tile of a tilemap whenever a collision is made.
 @export var deep_water_layer_name = "deep_water"
+@export var initial_state: State = State.Idle
+@onready var state: State = initial_state
+
+enum State {
+	Idle,
+	Dead,
+	Falling,
+	Walking
+}
+
+func _change_state(next_state: State):
+	if next_state == state:
+		return
+
+	var prev: State = state
+	state = next_state
+	_on_state_change(prev, state)
+
+func _on_state_change(prev_state: State, state: State):
+	match state:
+		State.Idle:
+			$Sprite.play("idle")
+		State.Dead:
+			died.emit()
+		State.Walking:
+			$Sprite.play("walk")	
+		State.Falling:
+			$Sprite.play("jump")
 
 signal died
 
@@ -24,7 +52,6 @@ func set_camera_extents_to_map(map: TileMap) -> void:
 	$Camera2D.limit_right = east.x - map.tile_set.tile_size.x
 	# We don't currently set a limit_up because this would require us to define a ceiling in our tile map, which would make parallax backgrounds difficult.
 	# There's probably a way to do this but I don't care.
-
 	# 'east' is the bottom right corner of the map. Therefore, it's y value will work.
 	# This has the same bug as limit_right, where we need to subtract one tile.
 	$Camera2D.limit_bottom = east.y - map.tile_set.tile_size.y
@@ -33,6 +60,7 @@ func _physics_process(delta: float):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
+	
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
@@ -46,8 +74,10 @@ func _physics_process(delta: float):
 		# Player is stood still.
 		velocity.x = move_toward(velocity.x, 0, speed)
 
-	# TODO: This is currently bugged and will only trigger if a player collides with a wall,
-	# instead of if a player moves on the water.
+	# Change facing direction if the axis indicates that we should (ie its over or under 0).
+	if direction != 0:
+		$Sprite.flip_h = direction > 0
+
 	if move_and_slide():
 		var collision = get_last_slide_collision()
 		var collider = collision.get_collider()
@@ -56,10 +86,9 @@ func _physics_process(delta: float):
 			var coords = collider.local_to_map(collision.get_position())
 			var tile: TileData = collider.get_cell_tile_data(layer_id, coords)
 			if tile != null && tile.get_custom_data(deep_water_layer_name):
-				# This triggers MANY times and only takes affect once the player leaves the dead zone.
-				# My guess is that multiple invocations continually reset the timer.
-				# We can solve this by having a dead state, and transitioning the player to that state, and only emitting state change notifications if appropriate.
 				kill()
+				# Make sure to return out of the function to prevent further processing, because we might end up saying the player is idle, walking or falling instead.
+				return
 	
 	# If the player is not jumping AND the player has no direction, the player is stood still and should idle.
 	# We still want the walking animation to play if the player has a direction even if the player can't move.
@@ -68,24 +97,15 @@ func _physics_process(delta: float):
 	# any jumps that occurred during this frame.
 	if is_on_floor():
 		if direction != 0:
-			$Sprite.play("walk")
+			_change_state(State.Walking)
 		else:
-			$Sprite.play("idle")
+			_change_state(State.Idle)
 	else:
-		$Sprite.play("jump")
-	# Change facing direction if the axis indicates that we should (ie its over or under 0).
-	if direction != 0:
-		$Sprite.flip_h = direction > 0
-
-# TODO: Refactor this into a state machine for all possible player states.
-var is_dead: bool = false
+		_change_state(State.Falling)
 
 ### Kills the player, playing the death animation and emitting a death event.
 func kill():
-	if is_dead:
-		return
-	is_dead = true
-	died.emit()
+	_change_state(State.Dead)
 
 func play_idle_animation():
 	$Sprite.play("idle")
