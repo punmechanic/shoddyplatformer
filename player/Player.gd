@@ -11,6 +11,24 @@ signal died
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+## Alters the player camera to match the extents of the TileMap.
+##
+## This prevents the player from seeing any further west or east than the furthest tile in that cardinal direction.
+func set_camera_extents_to_map(map: TileMap) -> void:
+	var extents = map.get_used_rect()
+	var west = map.map_to_local(extents.position)
+	var east = map.map_to_local(extents.end)
+	$Camera2D.limit_left = west.x
+	# I don't currently know why but it appears that Godot "rounds up" the end extent to that of the next tile increment. That is, the end appears to be TILE_SIZE more east than it should be.
+	# This is a hack fix but it would be good to know why it does this.
+	$Camera2D.limit_right = east.x - map.tile_set.tile_size.x
+	# We don't currently set a limit_up because this would require us to define a ceiling in our tile map, which would make parallax backgrounds difficult.
+	# There's probably a way to do this but I don't care.
+
+	# 'east' is the bottom right corner of the map. Therefore, it's y value will work.
+	# This has the same bug as limit_right, where we need to subtract one tile.
+	$Camera2D.limit_bottom = east.y - map.tile_set.tile_size.y
+
 func _physics_process(delta: float):
 	# Add the gravity.
 	if not is_on_floor():

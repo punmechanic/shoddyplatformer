@@ -8,9 +8,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_46jm2"]
 size = Vector2(1212, 97)
 
-[node name="Level1" type="Node2D" node_paths=PackedStringArray("initial_spawn_point")]
+[node name="Level1" type="Node2D" node_paths=PackedStringArray("initial_spawn_point", "tile_map")]
 script = ExtResource("2_1gil1")
 initial_spawn_point = NodePath("Checkpoint1")
+tile_map = NodePath("Tiles")
 
 [node name="Tiles" type="TileMap" parent="."]
 tile_set = ExtResource("1_5iamt")
